@@ -1,0 +1,28 @@
+.card-img {
+  transition: border 0.3s ease;
+}
+
+.card-img.border-primary {
+  border: 3px solid #007bff;
+}
+
+.col-4 img {
+  height: auto;
+  max-height: 80px;
+  object-fit: contain;
+}
+.btn-size.active {
+  border: 2px solid white;
+  background-color: #28a745;
+}
+
+#multi-item-example {
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+#thumbnail-container {
+  white-space: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}

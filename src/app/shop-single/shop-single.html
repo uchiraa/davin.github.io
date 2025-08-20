@@ -1,0 +1,181 @@
+<!-- Product Detail Modal (if used) -->
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="w-100 pt-1 mb-5 text-end">
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <form class="modal-content modal-body border-0 p-0">
+      <div class="input-group mb-2">
+        <input type="text" class="form-control" placeholder="Search ..." />
+        <button type="submit" class="input-group-text bg-success text-light">
+          <i class="fa fa-search text-white"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Product Display -->
+<section class="bg-light" data-aos="fade-up" data-aos-duration="1000">
+  <div class="container pb-5">
+    <div class="row">
+      <!-- Left Column: Image & Thumbnails -->
+      <div class="col-lg-5 mt-5">
+        <div class="card mb-3">
+          <img class="card-img img-fluid" [src]="currentImage" alt="Selected Product" />
+        </div>
+
+        <!-- Thumbnails with Scroll Arrows -->
+        <div class="row">
+          <div class="col-1 align-self-center">
+            <button (click)="scrollThumbnails('prev')" class="btn btn-outline-secondary">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+          </div>
+          <div id="thumbnail-container" class="col-10 d-flex gap-2 flex-wrap overflow-auto">
+            <div
+              *ngFor="let img of currentProduct.images"
+              class="col-3"
+              (click)="changeImage(img)"
+              style="cursor: pointer"
+            >
+              <img
+                [src]="img"
+                class="card-img img-fluid border"
+                [class.border-primary]="img === currentImage"
+              />
+            </div>
+          </div>
+          <div class="col-1 align-self-center">
+            <button (click)="scrollThumbnails('next')" class="btn btn-outline-secondary">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Product Details -->
+      <div class="col-lg-7 mt-5">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="h2">{{ currentProduct.name }}</h1>
+            <p class="h3 py-2">តម្លៃៈ {{ currentProduct.price }}$</p>
+
+            <!-- Ratings -->
+            <p class="py-2">
+              <i class="fa fa-star text-warning" *ngFor="let star of [1,2,3,4]"></i>
+              <i class="fa fa-star text-secondary"></i>
+              <span class="text-dark">Rating 4.8 | 36 Comments</span>
+            </p>
+
+            <!-- Info Rows -->
+            <ul class="list-inline">
+              <li class="list-inline-item"><h5>កូដ:</h5></li>
+              <li class="list-inline-item text-muted"><strong>{{ currentProduct.code }}</strong></li>
+            </ul>
+            <ul class="list-inline">
+              <li class="list-inline-item"><h5>ម៉ាក:</h5></li>
+              <li class="list-inline-item text-muted"><strong>{{ currentProduct.brand }}</strong></li>
+            </ul>
+            <ul class="list-inline">
+              <li class="list-inline-item"><h5>ទំហំ :</h5></li>
+              <li class="list-inline-item text-muted"><strong>{{ currentProduct.sizeInfo }}</strong></li>
+            </ul>
+            <ul class="list-inline">
+              <li class="list-inline-item"><h5>ពណ៌ :</h5></li>
+              <li class="list-inline-item text-muted"><strong>{{ currentProduct.color }}</strong></li>
+            </ul>
+
+            <!-- Description -->
+            <h5>ព័ត៌មានបន្ថែម:</h5>
+            <ul class="list-unstyled pb-3">
+              <li *ngFor="let info of currentProduct.description">{{ info }}</li>
+            </ul>
+
+            <!-- Size & Quantity -->
+            <div class="row">
+              <div class="col-auto">
+                <ul class="list-inline pb-3">
+                  <li class="list-inline-item">Size:</li>
+                  <li class="list-inline-item" *ngFor="let size of ['S','M','L','XL']">
+                    <span
+                      class="btn btn-outline-primary"
+                      [class.active]="selectedSize === size"
+                      (click)="selectSize(size)"
+                    >
+                      {{ size }}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-auto">
+                <ul class="list-inline pb-3">
+                  <li class="list-inline-item">Quantity:</li>
+                  <li class="list-inline-item">
+                    <button type="button" class="btn btn-outline-success" (click)="decreaseQty()">-</button>
+                  </li>
+                  <li class="list-inline-item">
+                    <span class="badge bg-secondary">{{ quantity }}</span>
+                  </li>
+                  <li class="list-inline-item">
+                    <button type="button" class="btn btn-outline-success" (click)="increaseQty()">+</button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row pb-3">
+              <div class="col d-grid">
+                <button type="button" class="btn btn-success btn-lg" name="submit" value="buy">
+                  Buy Now
+                </button>
+              </div>
+              <div class="col d-grid">
+                <button
+                  type="button"
+                  class="btn btn-outline-success btn-lg"
+                  (click)="addToCart()"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasCart"
+                >
+                  Add To Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end right column -->
+    </div>
+  </div>
+</section>
+
+<!-- Related Products -->
+<section class="py-5">
+  <div class="container">
+    <div class="row text-left p-2 pb-3" data-aos="fade-up" data-aos-duration="1000">
+      <h4>ផលិតផលជាប់ទាក់ទង</h4>
+    </div>
+
+    <div id="carousel-related-product" class="d-flex flex-wrap justify-content-start gap-3">
+      <div
+        *ngFor="let product of products"
+        class="p-2 pb-3 col-md-3"
+        (click)="viewProduct(product)"
+        style="cursor: pointer"
+      >
+        <div class="product-wap card rounded-0 h-100">
+          <div class="card rounded-0">
+            <img class="card-img rounded-0 img-fluid" [src]="product.images[0]" />
+          </div>
+          <div class="card-body text-center">
+            <p class="h5">{{ product.name }}</p>
+            <p class="mb-0 text-muted">${{ product.price }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
